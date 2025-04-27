@@ -84,7 +84,6 @@ async function getBeep(duration = base_beep_duration) {
 	const promise = new Promise(resolve =>
 		setTimeout(() => {
 			oscillator.stop()
-			global_state.setPlaying(false)
 			resolve()
 		}, duration)
 	)
@@ -121,20 +120,18 @@ async function playMorseSound(morseStr) {
  * @param {ChracterData} char
 */
 async function playSound(char) {
-	console.log(global_state.isPlaying())
 	if (global_state.isPlaying()) {
 		console.log("The sound is playing...")
 		return
 	}
 	global_state.setPlaying(true)
-	console.log(global_state.isPlaying())
 	const state = global_state.getState()
-	console.log(state)
 	if (!state.sleep || !state.short_beep || !state.long_beep) {
 		init_beep()
 	}
 	if (!(char in morseCode)) {
 		console.error("This character is not in Morse code")
+		return
 	}
 	await playMorseSound(morseCode[char])
 	global_state.setPlaying(false)
