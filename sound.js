@@ -79,6 +79,7 @@ async function getBeep(duration = base_beep_duration) {
 	oscillator.frequency.setValueAtTime(800, soundCtx.currentTime)
 	oscillator.connect(gainNode)
 	gainNode.connect(soundCtx.destination)
+	gainNode.gain.value = 0.1
 
 	oscillator.start()
 	const promise = new Promise(resolve =>
